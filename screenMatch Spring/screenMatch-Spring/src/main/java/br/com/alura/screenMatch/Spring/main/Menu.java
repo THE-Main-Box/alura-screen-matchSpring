@@ -26,20 +26,33 @@ public class Menu {
 
     public void showSeasonData(List<SeasonData> seasons) {
 
-        List<EpisodeData> episodes;
-        for (int i = 0; i < seasons.size(); i++) {
+//        List<EpisodeData> episodes;
+//        for (int i = 0; i < seasons.size(); i++) {
+//
+//            episodes = new ArrayList<>(seasons.get(i).episodes());
+//
+//            System.out.println("Temporada: " + seasons.get(i).seasonNumber());
+//            System.out.println("***************************");
+//
+//            for (EpisodeData ep : episodes) {
+//                System.out.println("Titulo: " + ep.title() + " Episódio: " + ep.episodeNumber());
+//            }
+//
+//            System.out.println("***************************");
+//        }
 
-            episodes = new ArrayList<>(seasons.get(i).episodes());
+        seasons.forEach(s -> {
 
-            System.out.println("Temporada: " + seasons.get(i).seasonNumber());
+            System.out.println("Temporada: " + s.seasonNumber());
             System.out.println("***************************");
 
-            for (EpisodeData ep : episodes) {
-                System.out.println("Titulo: " + ep.title() + " Episódio: " + ep.episodeNumber());
-            }
+            s.episodes().forEach(e -> {
+                System.out.println("Titulo: " + e.title() + " Episódio: " + e.episodeNumber());
+            });
 
             System.out.println("***************************");
-        }
+
+        });
 
     }
 
