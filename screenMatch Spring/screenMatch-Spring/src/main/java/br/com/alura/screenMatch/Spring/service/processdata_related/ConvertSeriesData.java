@@ -1,10 +1,9 @@
-package br.com.alura.screenMatch.Spring.service;
+package br.com.alura.screenMatch.Spring.service.processdata_related;
 
-import br.com.alura.screenMatch.Spring.model.SeriesData;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ConvertSeriesData implements IConvertData{
+public class ConvertSeriesData implements IConvertData {
 
     private ObjectMapper mapper = new ObjectMapper();
 

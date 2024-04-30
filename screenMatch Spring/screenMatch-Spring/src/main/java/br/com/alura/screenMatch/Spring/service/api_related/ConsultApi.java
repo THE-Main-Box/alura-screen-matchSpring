@@ -1,4 +1,4 @@
-package br.com.alura.screenMatch.Spring.service;
+package br.com.alura.screenMatch.Spring.service.api_related;
 
 import java.io.IOException;
 import java.net.URI;
