@@ -1,13 +1,13 @@
-package br.com.alura.screenMatch.Spring.model;
+package br.com.alura.screenMatch.Spring.model.record;
 
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record SeriesData (
+public record EpisodeData(
 
 @JsonAlias("Title")         String title,
+@JsonAlias("Episode")       Integer episodeNumber,
 @JsonAlias("imdbRating")    String rating,
-@JsonAlias("Released")      String releaseYear,
-                            Integer totalSeasons
+@JsonAlias("Released")      String released
 
 ){}

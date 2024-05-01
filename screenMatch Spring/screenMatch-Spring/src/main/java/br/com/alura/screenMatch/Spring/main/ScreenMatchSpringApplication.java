@@ -1,8 +1,8 @@
 package br.com.alura.screenMatch.Spring.main;
 
-import br.com.alura.screenMatch.Spring.model.EpisodeData;
-import br.com.alura.screenMatch.Spring.model.SeasonData;
-import br.com.alura.screenMatch.Spring.model.SeriesData;
+import br.com.alura.screenMatch.Spring.model.record.EpisodeData;
+import br.com.alura.screenMatch.Spring.model.record.SeasonData;
+import br.com.alura.screenMatch.Spring.model.record.SeriesData;
 import br.com.alura.screenMatch.Spring.service.processdata_related.GetSeriesData;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,20 +25,13 @@ public class ScreenMatchSpringApplication implements CommandLineRunner {
         Menu menu = new Menu();
 
         SeriesData seriesData;
-        EpisodeData episodeData;
         SeasonData seasonData;
 
         String serie;
-        int season, episode;
-
 
         serie = menu.setSerie();
-        episode = 1;
-        season = 3;
 
         seriesData = getSeriesData.getData(serie);
-        seasonData = getSeriesData.getData(serie, season);
-        episodeData = getSeriesData.getData(serie, season, episode);
 
         List<SeasonData> seasons = new ArrayList<>();
 
@@ -49,6 +42,7 @@ public class ScreenMatchSpringApplication implements CommandLineRunner {
 
         menu.showSeriesData(seriesData);
         menu.showSeasonData(seasons);
+        menu.showTopFiveEp();
 
     }
 

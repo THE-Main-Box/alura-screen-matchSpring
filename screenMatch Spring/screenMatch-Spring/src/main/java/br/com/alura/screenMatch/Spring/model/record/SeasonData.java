@@ -1,4 +1,4 @@
-package br.com.alura.screenMatch.Spring.model;
+package br.com.alura.screenMatch.Spring.model.record;
 
 
 import com.fasterxml.jackson.annotation.*;

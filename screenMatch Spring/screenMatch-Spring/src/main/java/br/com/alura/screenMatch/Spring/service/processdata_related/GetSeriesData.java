@@ -1,11 +1,10 @@
 package br.com.alura.screenMatch.Spring.service.processdata_related;
 
-import br.com.alura.screenMatch.Spring.model.EpisodeData;
-import br.com.alura.screenMatch.Spring.model.SeasonData;
-import br.com.alura.screenMatch.Spring.model.SeriesData;
+import br.com.alura.screenMatch.Spring.model.record.EpisodeData;
+import br.com.alura.screenMatch.Spring.model.record.SeasonData;
+import br.com.alura.screenMatch.Spring.model.record.SeriesData;
 import br.com.alura.screenMatch.Spring.service.api_related.ConsultApi;
 import br.com.alura.screenMatch.Spring.service.api_related.UrlGenerator;
-import br.com.alura.screenMatch.Spring.service.processdata_related.ConvertSeriesData;
 
 public class GetSeriesData {
 
