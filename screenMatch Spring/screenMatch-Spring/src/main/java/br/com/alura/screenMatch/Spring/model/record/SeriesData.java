@@ -2,6 +2,8 @@ package br.com.alura.screenMatch.Spring.model.record;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.time.LocalDate;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record SeriesData (
 

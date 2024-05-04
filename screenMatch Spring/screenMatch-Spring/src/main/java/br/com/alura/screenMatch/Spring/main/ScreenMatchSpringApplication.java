@@ -8,8 +8,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 public class ScreenMatchSpringApplication implements CommandLineRunner {
@@ -21,29 +19,15 @@ public class ScreenMatchSpringApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        GetSeriesData getSeriesData = new GetSeriesData();
         Menu menu = new Menu();
 
-        SeriesData seriesData;
-        SeasonData seasonData;
+        menu.setSerie();
 
-        String serie;
-
-        serie = menu.setSerie();
-
-        seriesData = getSeriesData.getData(serie);
-
-        List<SeasonData> seasons = new ArrayList<>();
-
-        for (int i = 1; i <= seriesData.totalSeasons(); i++) {
-            seasonData = getSeriesData.getData(serie, i);
-            seasons.add(seasonData);
-        }
-
-        menu.showSeriesData(seriesData);
-        menu.showSeasonData(seasons);
+        menu.showSeriesData();
+        menu.showSeasonData();
         menu.showTopFiveEp();
-
+        menu.showEpisodeOnYear();
+        menu.searchEpisode();
     }
 
 }
