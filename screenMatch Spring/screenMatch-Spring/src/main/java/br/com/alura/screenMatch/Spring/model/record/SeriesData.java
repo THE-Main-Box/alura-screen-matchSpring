@@ -2,7 +2,10 @@ package br.com.alura.screenMatch.Spring.model.record;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record SeriesData (
@@ -10,6 +13,23 @@ public record SeriesData (
 @JsonAlias("Title")         String title,
 @JsonAlias("imdbRating")    String rating,
 @JsonAlias("Released")      String releaseYear,
-                            Integer totalSeasons
+                            Integer totalSeasons,
+@JsonAlias("Poster")        String poster,
+@JsonAlias("Plot")          String sinopsys,
+@JsonAlias("Genre")         String genre,
+@JsonAlias("Actors")        String actors
 
-){}
+){
+    public List<String> getGenreList() {
+        return Arrays.stream(genre.split(","))
+                .map(String::trim)
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getActorList(){
+        return Arrays.stream(actors.split(","))
+                .map(String::trim)
+                .collect(Collectors.toList());
+    }
+
+}
