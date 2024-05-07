@@ -19,17 +19,4 @@ public record SeriesData (
 @JsonAlias("Genre")         String genre,
 @JsonAlias("Actors")        String actors
 
-){
-    public List<String> getGenreList() {
-        return Arrays.stream(genre.split(","))
-                .map(String::trim)
-                .collect(Collectors.toList());
-    }
-
-    public List<String> getActorList(){
-        return Arrays.stream(actors.split(","))
-                .map(String::trim)
-                .collect(Collectors.toList());
-    }
-
-}
+){}

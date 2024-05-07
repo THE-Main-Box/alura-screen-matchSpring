@@ -1,6 +1,7 @@
 package br.com.alura.screenMatch.Spring.main;
 
 import br.com.alura.screenMatch.Spring.model.classes.Episodes;
+import br.com.alura.screenMatch.Spring.model.classes.Serie;
 import br.com.alura.screenMatch.Spring.model.record.SeasonData;
 import br.com.alura.screenMatch.Spring.model.record.SeriesData;
 import br.com.alura.screenMatch.Spring.service.processdata_related.GetSeriesData;
@@ -16,12 +17,14 @@ public class Main {
     private GetSeriesData getSeriesData = new GetSeriesData();
     private List<Episodes> episodesList = new ArrayList<>();
     private List<Episodes> yearEpisodes = new ArrayList<>();
-    private List<SeriesData> seriesDataList = new ArrayList<>();
+    private List<Serie> seriesDataList = new ArrayList<>();
     private List<SeasonData> seasons;
     private Scanner reader = new Scanner(System.in);
-    private String serie;
+    private String serieStr;
+    private Serie serieClass;
 
     public void lobby() {
+
 
         int choice = -1;
 
@@ -34,8 +37,14 @@ public class Main {
             System.out.println("[0] - Sair");
             System.out.println("***************************");
 
-            choice = reader.nextInt();
-            reader.nextLine();
+            try {
+                choice = reader.nextInt();
+                reader.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Por favor escolha um opção válida");
+                reader.nextLine();
+                continue;
+            }
 
             switch (choice) {
                 case 0:
@@ -62,19 +71,23 @@ public class Main {
                     System.out.println("Por favor escolha um opção válida");
                     break;
             }
+
         }
+
     }
 
     /*Mostra as Séries pesquisadas*/
     private void showSeriesList() {
 
-        seriesDataList.forEach(sd -> {
+        seriesDataList.stream()
+                .sorted(Comparator.comparing(Serie::getGenre))
+        .forEach(s -> {
             System.out.println("***************************");
-            System.out.println("Titúlo.....:  " + sd.title());
-            System.out.println("Temporadas.:  " + sd.totalSeasons());
-            System.out.println("Ano........:  " + sd.releaseYear());
-            System.out.println("Gênero.....:  " + sd.getGenreList());
-            System.out.println("Nota.......:  " + sd.rating());
+            System.out.println("Titúlo.....:  " + s.getTitle());
+            System.out.println("Temporadas.:  " + s.getTotalSeasons());
+            System.out.println("Ano........:  " + s.getReleaseYear());
+            System.out.println("Gênero.....:  " + s.getGenre());
+            System.out.println("Nota.......:  " + s.getRating());
             System.out.println("***************************");
         });
 
@@ -89,36 +102,46 @@ public class Main {
         System.out.println("***************************");
 
         try {
-            serie = reader.nextLine();
+            serieStr = reader.nextLine();
 //          converte o nome da série passada em uma resposta da api em json e o converte  para o tipo correto
-            serieData = getSeriesData.getData(serie);
+            serieData = getSeriesData.getData(serieStr);
 
-            if (serieData.totalSeasons() != null && !seriesDataList.contains(serieData)) {
-                seriesDataList.add(serieData);
+            serieClass = new Serie(serieData);
+
+            if (serieClass.getTotalSeasons() != 0 && !this.isTitleAlreadyExists(serieClass.getTitle())) {
+                seriesDataList.add(serieClass);
             }
 
             List<SeasonData> seasons = new ArrayList<>();
 
             for (int i = 1; i <= serieData.totalSeasons(); i++) {
-                seasonData = getSeriesData.getData(serie, i);
+                seasonData = getSeriesData.getData(serieStr, i);
                 seasons.add(seasonData);
             }
 
-
             this.seasons = seasons;
 
-            this.seasons.forEach(s -> {
-                s.episodes().forEach(e -> {
-                    episodesList.add(new Episodes(e.title(), e.episodeNumber(), s.seasonNumber(), e.rating(), e.released()));
-                });
-            });
+            this.seasons.forEach(s -> s.episodes().forEach(e -> {
+                episodesList.add(new Episodes(e.title(), e.episodeNumber(), s.seasonNumber(), e.rating(), e.released()));
+            }));
 
         } catch (Exception e) {
             System.out.println("Erro ao setar os dados da série: " + e);
             this.setSerie();
         }
+
     }
 
+    /*Percorre a list de séries para verificar se o objeto do tipo série possuem um nome correpondente à string passada
+     * se for encontrada será retornado true caso contrário false*/
+    private boolean isTitleAlreadyExists(String newTitle) {
+        for (Serie existingSerie : seriesDataList) {
+            if (existingSerie.getTitle().trim().equalsIgnoreCase(newTitle.trim())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /*    pega dados de uma lista de escopo global de temporadas e pra cada temporada pega os episódios
      *        e pra cada episódio se é mostrado seus respectivos dados*/
@@ -166,19 +189,19 @@ public class Main {
 
         System.out.println("***************************");
 
-        System.out.println("Série.........:   " + serieData.title());
-        System.out.println("Gênero........:   " + serieData.getGenreList());
-        System.out.println("Temporadas....:   " + serieData.totalSeasons());
+        System.out.println("Série.........:   " + serieClass.getTitle());
+        System.out.println("Gênero........:   [" +serieClass.getGenre() + "]");
+        System.out.println("Temporadas....:   " + serieClass.getTotalSeasons());
         System.out.println("Episódios.....:   " + episodesList.size());
-        System.out.println("Lançamento....:   " + serieData.releaseYear());
-        System.out.println("Atores........:   " + serieData.getActorList());
-        System.out.println("Nota/Série....:   " + serieData.rating());
-        System.out.println("Sinópse.......:   " + serieData.sinopsys());
+        System.out.println("Lançamento....:   " + serieClass.getReleaseYear());
+       System.out.println("Atores........:   " + serieClass.getActors());
+        System.out.println("Nota/Série....:   " + serieClass.getRating());
+        System.out.println("Sinópse.......:   " + serieClass.getSinopsys());
         System.out.println("//***//***//***//**//**//**//**");
-        System.out.println("Poster........:       " + serieData.poster());
-        System.out.println("Média/Ep......:   %.1f".formatted(estat.getAverage()));
-        System.out.println("Média/Mlr/Ep..:   %.1f".formatted(estat.getMax()));
-        System.out.println("Média/Pior/Ep.:   %.1f".formatted(estat.getMin()));
+        System.out.println("Poster........:       " + serieClass.getPoster());
+        System.out.printf("Média/Ep......:        %.1f%n", estat.getAverage());
+        System.out.printf("Média/Mlr/Ep..:        %.1f%n", estat.getMax());
+        System.out.printf("Média/Pior/Ep.:        %.1f%n", estat.getMin());
 
         System.out.println("***************************");
 

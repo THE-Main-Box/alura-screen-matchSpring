@@ -14,9 +14,9 @@ public class ScreenMatchSpringApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Main menu = new Main();
-
-        menu.lobby();
+//        Main menu = new Main();
+//
+//        menu.lobby();
     }
 
 }
